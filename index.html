@@ -102,16 +102,19 @@
       padding: 0;
       overflow: hidden;
       touch-action: none;
+      background: #fff;
     }
     .board-viewport {
       width: 100vw;
       height: 100vh;
+      height: 100dvh;
       overflow: hidden;
       position: relative;
     }
     .board {
       transform-origin: 0 0;
       will-change: transform;
+      position: absolute;
     }
   }
 </style>
@@ -210,7 +213,8 @@
 </div>
 <script>
 (function() {
-  if (window.innerWidth > 900) return;
+  var isMobile = function() { return window.innerWidth <= 900; };
+  if (!isMobile()) return;
 
   var vp = document.getElementById('board-viewport');
   var board = document.getElementById('board');
@@ -223,16 +227,21 @@
   var isPinching = false;
   var pinchMidX = 0, pinchMidY = 0;
 
-  // Fit board to viewport on load
-  var bw = board.offsetWidth || 2286; // ~60.5cm in px
-  var bh = board.offsetHeight || 1719; // ~45.5cm in px
-  var vpw = vp.offsetWidth || window.innerWidth;
-  var vph = vp.offsetHeight || window.innerHeight;
-  scale = Math.min(vpw / bw, vph / bh);
-  minScale = scale * 0.8;
-  panX = (vpw - bw * scale) / 2;
-  panY = (vph - bh * scale) / 2;
-  applyTransform();
+  function fitToScreen() {
+    var bw = board.scrollWidth || board.offsetWidth;
+    var bh = board.scrollHeight || board.offsetHeight;
+    var vpw = window.innerWidth;
+    var vph = window.innerHeight;
+    scale = Math.min(vpw / bw, vph / bh);
+    minScale = scale * 0.8;
+    panX = (vpw - bw * scale) / 2;
+    panY = Math.max(0, (vph - bh * scale) / 2);
+    applyTransform();
+  }
+
+  // Run fit after full layout and images load
+  fitToScreen();
+  window.addEventListener('load', fitToScreen);
 
   function applyTransform() {
     board.style.transform = 'translate(' + panX + 'px,' + panY + 'px) scale(' + scale + ')';
