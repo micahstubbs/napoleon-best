@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Napoleon Bonaparte — Poster Board Mockup</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -97,10 +97,28 @@
     text-align: justify;
     hyphens: auto;
   }
+  @media (max-width: 900px) {
+    body {
+      padding: 0;
+      overflow: hidden;
+      touch-action: none;
+    }
+    .board-viewport {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+    .board {
+      transform-origin: 0 0;
+      will-change: transform;
+    }
+  }
 </style>
 </head>
 <body>
-<div class="board">
+<div class="board-viewport" id="board-viewport">
+<div class="board" id="board">
   <div class="header-row">
     <div class="flag-area" id="flag-area-left">
       <img src="img/french-empire-flag.png" alt="Flag of the French Empire">
@@ -189,5 +207,132 @@
     </div>
   </div>
 </div>
+</div>
+<script>
+(function() {
+  if (window.innerWidth > 900) return;
+
+  var vp = document.getElementById('board-viewport');
+  var board = document.getElementById('board');
+  if (!vp || !board) return;
+
+  var scale = 1, minScale = 0.15, maxScale = 2;
+  var panX = 0, panY = 0;
+  var startDist = 0, startScale = 1;
+  var startX = 0, startY = 0, startPanX = 0, startPanY = 0;
+  var isPinching = false;
+  var pinchMidX = 0, pinchMidY = 0;
+
+  // Fit board to viewport on load
+  var bw = board.offsetWidth || 2286; // ~60.5cm in px
+  var bh = board.offsetHeight || 1719; // ~45.5cm in px
+  var vpw = vp.offsetWidth || window.innerWidth;
+  var vph = vp.offsetHeight || window.innerHeight;
+  scale = Math.min(vpw / bw, vph / bh);
+  minScale = scale * 0.8;
+  panX = (vpw - bw * scale) / 2;
+  panY = (vph - bh * scale) / 2;
+  applyTransform();
+
+  function applyTransform() {
+    board.style.transform = 'translate(' + panX + 'px,' + panY + 'px) scale(' + scale + ')';
+  }
+
+  function clampPan() {
+    var bw = board.offsetWidth * scale;
+    var bh = board.offsetHeight * scale;
+    var vpw = vp.offsetWidth;
+    var vph = vp.offsetHeight;
+    var maxPanX = Math.max(0, (bw - vpw) / 2 + vpw * 0.1);
+    var maxPanY = Math.max(0, (bh - vph) / 2 + vph * 0.1);
+    var minPanX = Math.min(0, vpw - bw) - maxPanX + (bw > vpw ? 0 : (vpw - bw) / 2);
+    panX = Math.max(vpw - bw - vpw * 0.1, Math.min(vpw * 0.1, panX));
+    panY = Math.max(vph - bh - vph * 0.1, Math.min(vph * 0.1, panY));
+  }
+
+  function dist(t) {
+    var dx = t[0].clientX - t[1].clientX;
+    var dy = t[0].clientY - t[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  function mid(t) {
+    return {
+      x: (t[0].clientX + t[1].clientX) / 2,
+      y: (t[0].clientY + t[1].clientY) / 2
+    };
+  }
+
+  vp.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 2) {
+      isPinching = true;
+      startDist = dist(e.touches);
+      startScale = scale;
+      var m = mid(e.touches);
+      pinchMidX = m.x;
+      pinchMidY = m.y;
+      startPanX = panX;
+      startPanY = panY;
+    } else if (e.touches.length === 1 && !isPinching) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      startPanX = panX;
+      startPanY = panY;
+    }
+  }, { passive: true });
+
+  vp.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    if (e.touches.length === 2) {
+      isPinching = true;
+      var d = dist(e.touches);
+      var newScale = Math.min(maxScale, Math.max(minScale, startScale * (d / startDist)));
+      var m = mid(e.touches);
+      // Zoom toward pinch midpoint
+      var ratio = newScale / scale;
+      panX = m.x - (m.x - panX) * ratio + (m.x - pinchMidX);
+      panY = m.y - (m.y - panY) * ratio + (m.y - pinchMidY);
+      pinchMidX = m.x;
+      pinchMidY = m.y;
+      scale = newScale;
+      clampPan();
+      applyTransform();
+    } else if (e.touches.length === 1 && !isPinching) {
+      panX = startPanX + (e.touches[0].clientX - startX);
+      panY = startPanY + (e.touches[0].clientY - startY);
+      clampPan();
+      applyTransform();
+    }
+  }, { passive: false });
+
+  vp.addEventListener('touchend', function(e) {
+    if (e.touches.length < 2) {
+      isPinching = false;
+    }
+    if (e.touches.length === 1) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      startPanX = panX;
+      startPanY = panY;
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 900) {
+      board.style.transform = '';
+      return;
+    }
+    var vpw = vp.offsetWidth;
+    var vph = vp.offsetHeight;
+    var fitScale = Math.min(vpw / board.offsetWidth, vph / board.offsetHeight);
+    if (scale < fitScale) {
+      scale = fitScale;
+      panX = (vpw - board.offsetWidth * scale) / 2;
+      panY = (vph - board.offsetHeight * scale) / 2;
+      applyTransform();
+    }
+  });
+})();
+</script>
 </body>
 </html>
