@@ -3,96 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Napoleon Bonaparte — Poster Board Mockup</title>
+<title>Napoleon Bonaparte — Poster Board</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #fff;
+    min-height: 100vh;
+    background: #1a1a2e;
     font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
     display: flex;
     justify-content: center;
-    padding: 1cm;
+    padding: 2rem 1rem;
   }
   .board {
-    width: 60.5cm;
-    height: 45.5cm;
-    background: #fff;
-    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 1100px;
+    background: #f5f0e1;
+    border: 8px solid #8b6914;
+    border-radius: 4px;
+    box-shadow:
+      0 0 0 3px #c9a84c,
+      0 0 0 6px #8b6914,
+      0 8px 32px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: hidden;
+    padding: 1.5rem 1rem 2rem;
     position: relative;
   }
+  .flag {
+    position: absolute;
+    top: 1rem;
+    width: 120px;
+    height: auto;
+    z-index: 10;
+    border: 2px solid #8b6914;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+  .flag-left { left: 1rem; }
+  .flag-right { right: 1rem; }
   .header {
-    width: 27.8cm;
-    height: 9cm;
-    flex-shrink: 0;
-    margin-top: 0.15cm;
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 1.5rem;
   }
   .header img {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    height: auto;
     display: block;
   }
   .panels-area {
     display: flex;
     flex-direction: column;
-    flex: 1;
-    justify-content: center;
+    gap: 1rem;
+    width: 100%;
   }
   .row {
     display: flex;
     justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
   }
   .panel {
-    width: 12.1cm;
-    height: 18cm;
+    width: 195px;
     background: #fff;
-    border: 1px solid #ddd;
+    border: 1px solid #d4c9a8;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   .panel img {
     width: 100%;
-    height: 11cm;
+    height: 180px;
     object-fit: cover;
     display: block;
     border-bottom: 1px solid #eee;
   }
   .panel-body {
-    padding: 0.3cm 0.4cm;
+    padding: 0.6rem 0.7rem;
     flex: 1;
-    overflow: hidden;
   }
   .panel-body h2 {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     text-align: center;
-    margin-bottom: 0.2cm;
+    margin-bottom: 0.4rem;
     color: #1a1a2e;
+    letter-spacing: 0.02em;
   }
   .panel-body p {
-    font-size: 0.52rem;
-    line-height: 1.45;
-    color: #222;
+    font-size: 0.68rem;
+    line-height: 1.5;
+    color: #333;
     text-align: justify;
     hyphens: auto;
   }
-  .flag {
-    position: absolute;
-    top: 0.8cm;
-    width: 7cm;
-    height: auto;
-    z-index: 10;
+  .footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: #6b4c2a;
+    font-style: italic;
+    font-size: 0.85rem;
   }
-  .flag-left {
-    left: 0.8cm;
+  @media (max-width: 1060px) {
+    .row { gap: 0.5rem; }
+    .panel { width: 180px; }
+    .panel img { height: 160px; }
+    .flag { width: 90px; }
   }
-  .flag-right {
-    right: 0.8cm;
+  @media (max-width: 960px) {
+    .panel { width: 45%; max-width: 280px; }
+    .panel img { height: 200px; }
+    .panel-body h2 { font-size: 0.9rem; }
+    .panel-body p { font-size: 0.75rem; }
+    .flag { display: none; }
+  }
+  @media (max-width: 600px) {
+    body { padding: 0.5rem; }
+    .board { padding: 1rem 0.5rem; border-width: 5px; }
+    .panel { width: 100%; max-width: 400px; }
+    .panel img { height: 220px; }
+    .panel-body { padding: 0.8rem 1rem; }
+    .panel-body h2 { font-size: 1rem; }
+    .panel-body p { font-size: 0.82rem; line-height: 1.6; }
   }
 </style>
 </head>
@@ -101,7 +138,7 @@
   <img src="img/french-empire-flag.png" alt="Flag of the French Empire" class="flag flag-left">
   <img src="img/french-empire-flag.png" alt="Flag of the French Empire" class="flag flag-right">
   <div class="header">
-    <img src="img/napoleon-header.jpg" alt="Napoleon Bonaparte Header">
+    <img src="img/napoleon-header.jpg" alt="Napoleon Bonaparte">
   </div>
   <div class="panels-area">
     <div class="row">
@@ -109,35 +146,35 @@
         <img src="img/panels/napoleon_birth.jpg" alt="Birth of Napoleon">
         <div class="panel-body">
           <h2>Birth of Napoleon (1769)</h2>
-          <p>Napoleon Bonaparte was born on 15 August 1769 in Ajaccio on the island of Corsica. His family belonged to the minor Corsican nobility but had limited wealth. Shortly before his birth, France had taken control of Corsica, which meant Napoleon grew up between two cultural worlds: Corsican identity and French political authority. This early background shaped his ambition and determination to rise through the institutions of his adopted country. The house where he was born, known as Maison Bonaparte, still stands in Ajaccio and is now a national museum.</p>
+          <p>Napoleon Bonaparte was born on 15 August 1769 in Ajaccio on the island of Corsica. His family belonged to the minor Corsican nobility but had limited wealth. Shortly before his birth, France had taken control of Corsica, which meant Napoleon grew up between two cultural worlds: Corsican identity and French political authority. This early background shaped his ambition and determination to rise through the institutions of his adopted country.</p>
         </div>
       </div>
       <div class="panel">
         <img src="img/panels/military_school.jpg" alt="Military Education">
         <div class="panel-body">
           <h2>Military Education (1779&ndash;1785)</h2>
-          <p>Napoleon left Corsica at age ten to attend military school in mainland France. He first studied at the College of Autun and then at the military academy at Brienne-le-Ch&acirc;teau, where he spent five years mastering mathematics, history, and geography. His teachers noted his discipline and intensity. In 1784 he was admitted to the prestigious &Eacute;cole Militaire in Paris, where he specialized in artillery&mdash;a branch requiring advanced mathematical thinking that would become one of Napoleon's greatest strategic advantages on the battlefield. He graduated in 1785 and was commissioned as a second lieutenant of artillery.</p>
+          <p>Napoleon left Corsica at age ten to attend military school in mainland France. He studied at Brienne-le-Ch&acirc;teau for five years, mastering mathematics, history, and geography. In 1784 he was admitted to the prestigious &Eacute;cole Militaire in Paris, where he specialized in artillery&mdash;a branch requiring advanced mathematical thinking that would become one of Napoleon's greatest strategic advantages on the battlefield.</p>
         </div>
       </div>
       <div class="panel">
         <img src="img/panels/toulon.jpg" alt="Siege of Toulon">
         <div class="panel-body">
           <h2>Siege of Toulon (1793)</h2>
-          <p>Napoleon first rose to national attention during the Siege of Toulon in 1793. British and royalist forces had seized control of this important French Mediterranean port. The young artillery captain designed a bold strategy: rather than attacking the city directly, he positioned his guns on the heights surrounding the harbor, making the British naval position untenable. The plan succeeded brilliantly, forcing the British fleet to withdraw. At only twenty-four years old, Napoleon was promoted to brigadier general, launching the military career that would reshape Europe.</p>
+          <p>Napoleon first rose to national attention during the Siege of Toulon in 1793. British and royalist forces had seized this important Mediterranean port. The young artillery captain designed a bold strategy: rather than attacking directly, he positioned his guns on the heights surrounding the harbor, making the British naval position untenable. The plan succeeded brilliantly, and at twenty-four, Napoleon was promoted to brigadier general.</p>
         </div>
       </div>
       <div class="panel">
         <img src="img/panels/brumaire.jpg" alt="Coup of 18 Brumaire">
         <div class="panel-body">
           <h2>Coup of 18 Brumaire (1799)</h2>
-          <p>By the late 1790s, France's revolutionary government&mdash;the Directory&mdash;had become weak and deeply unpopular. On 9 November 1799 (18 Brumaire in the French Republican Calendar), Napoleon participated in a carefully planned political coup that overthrew the Directory. A new government called the Consulate was established, with Napoleon as First Consul. Though nominally a republic, the Consulate concentrated real power in Napoleon's hands. This marked his decisive transition from celebrated military commander to political leader of France, setting the stage for the Empire that would follow.</p>
+          <p>By the late 1790s, France's revolutionary government had become weak and unpopular. On 9 November 1799, Napoleon participated in a carefully planned political coup that overthrew the Directory. A new government called the Consulate was established, with Napoleon as First Consul. This marked his decisive transition from celebrated military commander to political leader of France.</p>
         </div>
       </div>
       <div class="panel">
         <img src="img/panels/alps.jpg" alt="Crossing the Alps">
         <div class="panel-body">
           <h2>Crossing the Alps (1800)</h2>
-          <p>In May 1800, Napoleon led the French army on a daring crossing of the Great St. Bernard Pass through the Alps to surprise Austrian forces occupying northern Italy. The logistical achievement of moving tens of thousands of soldiers with artillery through narrow mountain passes in spring was remarkable. The campaign culminated in the Battle of Marengo on 14 June 1800, where a near-defeat was turned into a decisive French victory. This crossing was immortalized in Jacques-Louis David's famous painting showing Napoleon astride a rearing horse against the Alpine backdrop.</p>
+          <p>In May 1800, Napoleon led the French army on a daring crossing of the Great St. Bernard Pass to surprise Austrian forces in northern Italy. Moving tens of thousands of soldiers with artillery through narrow mountain passes was a remarkable logistical achievement. The campaign culminated in the Battle of Marengo, where a near-defeat was turned into a decisive French victory.</p>
         </div>
       </div>
     </div>
@@ -146,38 +183,41 @@
         <img src="img/panels/coronation.jpg" alt="Coronation as Emperor">
         <div class="panel-body">
           <h2>Coronation as Emperor (1804)</h2>
-          <p>On 2 December 1804, Napoleon crowned himself Emperor of the French at Notre-Dame Cathedral in Paris in the presence of Pope Pius VII. In a dramatic departure from tradition, Napoleon took the crown from the Pope's hands and placed it on his own head, symbolizing that his authority derived from his own achievements rather than from divine right or papal blessing. He then crowned his wife Jos&eacute;phine as Empress. The ceremony was captured in a monumental painting by Jacques-Louis David, one of the most famous works in the history of art, now displayed in the Louvre.</p>
+          <p>On 2 December 1804, Napoleon crowned himself Emperor at Notre-Dame Cathedral in Paris. In a dramatic departure from tradition, he took the crown from Pope Pius VII's hands and placed it on his own head, symbolizing that his authority derived from his own achievements rather than from divine right or papal blessing. He then crowned his wife Jos&eacute;phine as Empress.</p>
         </div>
       </div>
       <div class="panel">
         <img src="img/panels/austerlitz.jpg" alt="Battle of Austerlitz">
         <div class="panel-body">
           <h2>Battle of Austerlitz (1805)</h2>
-          <p>The Battle of Austerlitz, fought on 2 December 1805, is widely regarded as Napoleon's greatest military victory. Facing the combined armies of Tsar Alexander I of Russia and Emperor Francis II of Austria near the town of Austerlitz in Moravia, Napoleon deliberately weakened his right flank to lure the allies into a trap. When the enemy committed their forces against his apparent weakness, he struck with devastating force through their center. The allied army was shattered, losing nearly a third of its strength. The victory secured French dominance across much of continental Europe.</p>
+          <p>The Battle of Austerlitz, fought on 2 December 1805, is widely regarded as Napoleon's greatest military victory. Facing the combined armies of Russia and Austria, Napoleon deliberately weakened his right flank to lure the allies into a trap. When they committed their forces, he struck with devastating force through their center. The allied army was shattered, losing nearly a third of its strength.</p>
         </div>
       </div>
       <div class="panel">
         <img src="img/panels/code.jpg" alt="The Napoleonic Code">
         <div class="panel-body">
           <h2>The Napoleonic Code (1804)</h2>
-          <p>The Napoleonic Code, officially the <em>Code civil des Fran&ccedil;ais</em>, was promulgated in 1804 and remains one of Napoleon's most enduring legacies. It replaced the patchwork of feudal, royal, and revolutionary laws with a unified legal system guaranteeing equality before the law, protection of property rights, and secular civil authority. Napoleon personally presided over many of the drafting sessions. The Code's influence spread far beyond France&mdash;it became the foundation for legal systems across Europe, Latin America, the Middle East, and beyond, and continues to shape civil law in dozens of countries today.</p>
+          <p>The Napoleonic Code replaced the patchwork of feudal, royal, and revolutionary laws with a unified legal system guaranteeing equality before the law, protection of property rights, and secular civil authority. Napoleon personally presided over many drafting sessions. The Code's influence spread far beyond France and continues to shape civil law in dozens of countries today.</p>
         </div>
       </div>
       <div class="panel">
         <img src="img/panels/russia.jpg" alt="Invasion of Russia">
         <div class="panel-body">
           <h2>Invasion of Russia (1812)</h2>
-          <p>In June 1812, Napoleon invaded Russia with the Grande Arm&eacute;e, a multinational force of over 600,000 soldiers&mdash;the largest army Europe had ever seen. Although his forces captured Moscow in September, they found the city largely abandoned and soon engulfed in flames set by the retreating Russians. With no peace offer forthcoming from Tsar Alexander I and winter approaching, Napoleon ordered a retreat that became one of history's greatest military disasters. Harassed by Russian forces, starving, and frozen, fewer than 100,000 soldiers survived the return march, marking the beginning of Napoleon's downfall.</p>
+          <p>In June 1812, Napoleon invaded Russia with over 600,000 soldiers&mdash;the largest army Europe had ever seen. Although his forces captured Moscow, they found it abandoned and aflame. With winter approaching and no peace offer from Tsar Alexander I, Napoleon ordered a retreat that became one of history's greatest military disasters. Fewer than 100,000 soldiers survived the return march.</p>
         </div>
       </div>
       <div class="panel">
         <img src="img/panels/sthelena.jpg" alt="Exile on Saint Helena">
         <div class="panel-body">
           <h2>Exile on Saint Helena (1815&ndash;1821)</h2>
-          <p>After his final defeat at the Battle of Waterloo on 18 June 1815, Napoleon surrendered to the British and was exiled to the remote volcanic island of Saint Helena in the South Atlantic Ocean, some 1,900 kilometers from the nearest land. There he lived under British supervision at Longwood House, a damp and deteriorating residence. Napoleon spent his final years dictating memoirs, gardening, and reflecting on his legacy. He died on 5 May 1821 at the age of fifty-one, likely of stomach cancer. His remains were returned to France in 1840 and now rest beneath the dome of Les Invalides in Paris.</p>
+          <p>After his final defeat at Waterloo on 18 June 1815, Napoleon was exiled to Saint Helena in the South Atlantic, some 1,900 kilometers from the nearest land. He spent his final years dictating memoirs, gardening, and reflecting on his legacy. He died on 5 May 1821 at the age of fifty-one. His remains were returned to France in 1840 and now rest beneath the dome of Les Invalides in Paris.</p>
         </div>
       </div>
     </div>
+  </div>
+  <div class="footer">
+    <p>napoleon.best</p>
   </div>
 </div>
 </body>
