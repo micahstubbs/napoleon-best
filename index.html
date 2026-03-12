@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Napoleon Bonaparte — Poster Board Mockup</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -98,11 +98,20 @@
     hyphens: auto;
   }
   @media (max-width: 900px) {
+    html {
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+    }
     body {
       padding: 0;
       overflow: hidden;
       touch-action: none;
       background: #fff;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
     }
     .board-viewport {
       width: 100vw;
@@ -115,6 +124,9 @@
       transform-origin: 0 0;
       will-change: transform;
       position: absolute;
+      /* CSS fallback: scale board to ~360px wide viewport before JS runs */
+      /* 360 / 2287 ≈ 0.157 — conservative for smallest common phones */
+      transform: scale(0.155);
     }
   }
 </style>
