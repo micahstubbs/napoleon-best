@@ -24,11 +24,27 @@
     overflow: hidden;
     position: relative;
   }
+  .header-row {
+    display: flex;
+    width: 100%;
+    flex-shrink: 0;
+    margin-top: 0.15cm;
+  }
+  .flag-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .flag-area img {
+    width: 80%;
+    max-width: 14cm;
+    height: auto;
+  }
   .header {
     width: 27.8cm;
     height: 9cm;
     flex-shrink: 0;
-    margin-top: 0.15cm;
   }
   .header img {
     width: 100%;
@@ -81,28 +97,20 @@
     text-align: justify;
     hyphens: auto;
   }
-  .flag {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 12cm;
-    height: auto;
-    z-index: 10;
-  }
-  .flag-left {
-    left: 1.5cm;
-  }
-  .flag-right {
-    right: 1.5cm;
-  }
 </style>
 </head>
 <body>
 <div class="board">
-  <img src="img/french-empire-flag.png" alt="Flag of the French Empire" class="flag flag-left">
-  <img src="img/french-empire-flag.png" alt="Flag of the French Empire" class="flag flag-right">
-  <div class="header">
-    <img src="img/napoleon-header.jpg" alt="Napoleon Bonaparte Header">
+  <div class="header-row">
+    <div class="flag-area" id="flag-area-left">
+      <img src="img/french-empire-flag.png" alt="Flag of the French Empire">
+    </div>
+    <div class="header">
+      <img src="img/napoleon-header.jpg" alt="Napoleon Bonaparte Header">
+    </div>
+    <div class="flag-area" id="flag-area-right">
+      <img src="img/french-empire-flag.png" alt="Flag of the French Empire">
+    </div>
   </div>
   <div class="panels-area">
     <div class="row">
